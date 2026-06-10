@@ -1,4 +1,5 @@
-import { Star, GitFork, Calendar } from "lucide-react";
+import { Star, GitFork, Calendar, Scale } from "lucide-react";
+import { AddToCollection } from "./add-to-collection";
 
 interface RepoCardProps {
   repo: {
@@ -8,41 +9,46 @@ interface RepoCardProps {
     stargazers_count: number;
     forks_count: number;
     updated_at: string;
-    html_url: string;
     license: {
-      spdx_id: string;
+      spdx_id?: string;
+      name?: string;
     } | null;
+    html_url: string;
     language: string | null;
   };
 }
 
 export function RepoCard({ repo }: RepoCardProps) {
   return (
-    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start">
-        <div>
+    <div className="p-6 border rounded-xl hover:shadow-md transition-shadow bg-white flex flex-col h-full">
+      <div className="flex justify-between items-start mb-4">
+        <h3 className="text-xl font-bold truncate max-w-[70%]">
           <a 
             href={repo.html_url} 
             target="_blank" 
-            className="font-semibold text-lg hover:underline"
+            rel="noopener noreferrer"
+            className="hover:underline"
           >
             {repo.full_name}
           </a>
-          {repo.description && (
-            <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-              {repo.description}
-            </p>
-          )}
+        </h3>
+        <div className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-medium">
+          <Scale className="w-3 h-3" />
+          {repo.license?.spdx_id || repo.license?.name || "No License"}
         </div>
-        
-        {repo.license && (
-          <span className="text-xs px-2 py-1 bg-gray-100 rounded">
-            {repo.license.spdx_id}
-          </span>
-        )}
       </div>
 
-      <div className="flex items-center gap-4 mt-4 text-sm text-gray-500">
+      <p className="text-gray-600 text-sm mb-6 line-clamp-2 flex-grow">
+        {repo.description || "No description provided."}
+      </p>
+
+      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
+        {repo.language && (
+          <div className="flex items-center gap-1">
+            <span className="w-3 h-3 rounded-full bg-black" />
+            {repo.language}
+          </div>
+        )}
         <div className="flex items-center gap-1">
           <Star className="w-4 h-4" />
           {repo.stargazers_count.toLocaleString()}
@@ -55,6 +61,10 @@ export function RepoCard({ repo }: RepoCardProps) {
           <Calendar className="w-4 h-4" />
           {new Date(repo.updated_at).toLocaleDateString()}
         </div>
+      </div>
+
+      <div className="pt-4 border-t mt-auto">
+        <AddToCollection repoFullName={repo.full_name} repoId={repo.id} />
       </div>
     </div>
   );

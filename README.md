@@ -1,83 +1,82 @@
-# AWOSS
+# AWOSS (Awesome Open Source Hub)
 
-> **Discover, curate, and manage the best open source repositories — all in one place.**
+AWOSS adalah platform kurasi repositori open source yang membantu pengembang menemukan, mengelola, dan berbagi proyek open source terbaik dengan fokus pada lisensi dan kualitas kode.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com)
+## Fitur Utama
 
-AWOSS (Awesome Open Source Hub) is a modern platform to discover, organize, and share high-quality open source repositories with a strong focus on **licenses**.
-
-## Features
-
-- Advanced search and filtering by license, language, stars, and more
-- Real-time repository data from GitHub
-- Create and manage personal or public collections
-- License detection and information
-- Trending and popular repositories
-- Clean, fast, and responsive interface
+- 🔍 **Discovery:** Cari repositori GitHub dengan filter canggih (lisensi, bahasa, bintang).
+- 📁 **Collections:** Buat koleksi pribadi atau publik untuk mengelompokkan repositori favorit Anda.
+- 🔐 **GitHub Integration:** Login aman menggunakan akun GitHub Anda.
+- 📜 **License Focused:** Informasi lisensi yang jelas untuk setiap repositori.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router) + TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Database**: Vercel Postgres + Drizzle ORM
-- **Authentication**: Auth.js with GitHub OAuth
-- **GitHub Integration**: Octokit
-- **Deployment**: Vercel
+- **Framework:** [Next.js 15 (App Router)](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/) (via Vercel Postgres)
+- **ORM:** [Drizzle ORM](https://orm.drizzle.team/)
+- **Auth:** [Auth.js (NextAuth v5)](https://authjs.dev/)
+- **API:** [Octokit](https://github.com/octokit/octokit.js) (GitHub API)
 
-## Getting Started
+## Persiapan Lokal
 
-### Prerequisites
+1. Clone repositori:
+   ```bash
+   git clone https://github.com/0xmrxp/awoss.git
+   cd awoss
+   ```
 
-- Node.js 18+
-- GitHub account
+2. Instal dependensi:
+   ```bash
+   pnpm install
+   ```
 
-### Installation
+3. Konfigurasi Environment Variables:
+   Buat file `.env.local` dan isi dengan nilai berikut:
+   ```env
+   # Database
+   DATABASE_URL="postgres://..."
 
-```bash
-git clone https://github.com/0xmrxp/awoss.git
-cd awoss
-npm install
-```
+   # Auth.js
+   AUTH_SECRET="gunakan-perintah-npx-auth-secret-untuk-generate"
+   AUTH_URL="http://localhost:3000"
 
-### Environment Variables
+   # GitHub OAuth
+   AUTH_GITHUB_ID="your-github-client-id"
+   AUTH_GITHUB_SECRET="your-github-client-secret"
+   ```
 
-Create a `.env.local` file:
+4. Jalankan migrasi database:
+   ```bash
+   pnpm drizzle-kit push
+   ```
 
-```env
-DATABASE_URL=your_vercel_postgres_url
-GITHUB_CLIENT_ID=your_github_client_id
-GITHUB_CLIENT_SECRET=your_github_client_secret
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
-```
+5. Jalankan aplikasi:
+   ```bash
+   pnpm dev
+   ```
 
-### Run the Project
+## Panduan Deployment ke Vercel
 
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
+1. **Push ke GitHub:** Pastikan semua perubahan sudah di-push ke repositori GitHub Anda.
+2. **Vercel Project:** Hubungkan repositori GitHub Anda ke proyek baru di Vercel.
+3. **Environment Variables:** Masukkan semua variabel dari `.env.local` ke pengaturan Vercel (kecuali `AUTH_URL` yang otomatis ditangani Vercel).
+4. **Postgres:** Gunakan Vercel Postgres untuk database yang cepat dan terintegrasi.
+5. **Deploy:** Klik deploy dan AWOSS siap digunakan!
 
 ## Roadmap
 
-- [ ] License compatibility checker
-- [ ] Team collections
-- [ ] Weekly digest emails
-- [ ] Advanced analytics
+- [x] Setup Next.js 15 & Tailwind CSS
+- [x] Integrasi Drizzle ORM & Database Schema
+- [x] Autentikasi GitHub OAuth
+- [x] Fitur Pencarian Repositori via GitHub API
+- [x] Fitur Membuat Koleksi (Private/Public)
+- [x] Fitur Menambahkan Repo ke Koleksi
+- [ ] Filter Lisensi yang lebih mendalam
+- [ ] Fitur Social (Like & Follow Collections)
+- [ ] Dashboard Statistik untuk Koleksi
 
-## Contributing
+## Lisensi
 
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- GitHub for their excellent API
-- The open source community
+Distributed under the MIT License. See `LICENSE` for more information.
