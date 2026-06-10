@@ -5,6 +5,7 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
+  // Protect collections routes
   const isProtectedRoute = nextUrl.pathname.startsWith("/collections");
 
   if (isProtectedRoute && !isLoggedIn) {
