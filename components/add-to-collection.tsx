@@ -105,7 +105,7 @@ export function AddToCollection({ repoFullName, repoId }: { repoFullName: string
                   <textarea
                     id="notes"
                     className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Why are you adding this?"
+                    placeholder="Why are you adding this repository?"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={2}

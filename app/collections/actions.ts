@@ -7,6 +7,9 @@ import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
+/**
+ * Fetch all collections belonging to the currently authenticated user
+ */
 export async function getUserCollections() {
   const session = await auth();
   if (!session?.user?.id) return [];
@@ -17,6 +20,9 @@ export async function getUserCollections() {
   });
 }
 
+/**
+ * Create a new repository collection
+ */
 export async function createCollection(formData: FormData) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
@@ -41,11 +47,14 @@ export async function createCollection(formData: FormData) {
   redirect("/collections");
 }
 
+/**
+ * Add a repository to a specific collection
+ */
 export async function addRepoToCollection(collectionId: number, repoFullName: string, repoId: number, notes?: string) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  // Verify ownership
+  // Verify collection ownership
   const collection = await db.query.collections.findFirst({
     where: and(
       eq(collections.id, collectionId),
@@ -55,7 +64,7 @@ export async function addRepoToCollection(collectionId: number, repoFullName: st
 
   if (!collection) throw new Error("Collection not found or unauthorized");
 
-  // Check if repo already exists in collection
+  // Check if the repository is already in this collection
   const existing = await db.query.collectionRepos.findFirst({
     where: and(
       eq(collectionRepos.collectionId, collectionId),
@@ -63,7 +72,7 @@ export async function addRepoToCollection(collectionId: number, repoFullName: st
     ),
   });
 
-  if (existing) return { error: "Repository already in collection" };
+  if (existing) return { error: "Repository already in this collection" };
 
   await db.insert(collectionRepos).values({
     collectionId,
@@ -76,6 +85,9 @@ export async function addRepoToCollection(collectionId: number, repoFullName: st
   return { success: true };
 }
 
+/**
+ * Delete a collection and all its repository associations
+ */
 export async function deleteCollection(id: number) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
